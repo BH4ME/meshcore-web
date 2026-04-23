@@ -177,6 +177,8 @@ const messages = {
         connection: {
             failedBle: "Failed to connect to BLE device!",
             failedSerial: "Failed to connect to serial device!",
+            webBluetoothUnsupported: "Web Bluetooth is not supported in this browser.",
+            webSerialUnsupported: "Web Serial is not supported in this browser.",
             publicChannelName: "Public Channel",
             publicChannelDescription: "This is the default public channel.",
         },
@@ -354,6 +356,8 @@ const messages = {
         connection: {
             failedBle: "连接蓝牙设备失败！",
             failedSerial: "连接串口设备失败！",
+            webBluetoothUnsupported: "当前浏览器不支持 Web Bluetooth。",
+            webSerialUnsupported: "当前浏览器不支持 Web Serial。",
             publicChannelName: "公共频道",
             publicChannelDescription: "这是默认公共频道。",
         },

@@ -12,6 +12,13 @@ class Connection {
 
     static async connectViaBluetooth() {
         try {
+
+            // show localized message before meshcore.js falls back to its hardcoded English alert
+            if(!navigator.bluetooth){
+                alert(I18n.t("connection.webBluetoothUnsupported"));
+                return false;
+            }
+
             await this.connect(await BleConnection.open());
             return true;
         } catch(e) {
@@ -33,6 +40,13 @@ class Connection {
 
     static async connectViaSerial() {
         try {
+
+            // show localized message before meshcore.js falls back to its hardcoded English alert
+            if(!navigator.serial){
+                alert(I18n.t("connection.webSerialUnsupported"));
+                return false;
+            }
+
             await this.connect(await SerialConnection.open());
             return true;
         } catch(e) {
