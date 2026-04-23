@@ -1,3 +1,5 @@
+import I18n from "./I18n.js";
+
 class Utils {
 
     static async sleep(millis) {
@@ -12,7 +14,7 @@ class Utils {
 
         // make sure copy to clipboard is supported
         if(!navigator.clipboard || !navigator.clipboard.writeText){
-            alert("Clipboard not supported. Site must be served via https on iOS.");
+            alert(I18n.t("utils.clipboardNotSupported"));
             return;
         }
 
@@ -20,7 +22,7 @@ class Utils {
         await navigator.clipboard.writeText(text);
 
         // tell user we copied it
-        alert("Copied to clipboard!");
+        alert(I18n.t("utils.copiedToClipboard"));
 
     }
 

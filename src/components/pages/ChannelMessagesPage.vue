@@ -2,7 +2,7 @@
     <Page>
 
         <!-- app bar -->
-        <AppBar title="Channel Messages" :subtitle="subtitle">
+        <AppBar :title="I18n.t('page.channelMessages')" :subtitle="subtitle">
             <template v-slot:trailing>
                 <ChannelDropDownMenu
                     v-if="channel"
@@ -24,6 +24,7 @@ import AppBar from "../AppBar.vue";
 import MessageViewer from "../messages/MessageViewer.vue";
 import GlobalState from "../../js/GlobalState.js";
 import ChannelDropDownMenu from "../channels/ChannelDropDownMenu.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ChannelMessagesPage',
@@ -55,7 +56,10 @@ export default {
             return GlobalState.channels.find((channel) => channel.idx.toString() === this.channelIdx.toString());
         },
         subtitle() {
-            return this.channel ? this.channel.name : "Unknown Channel";
+            return this.channel ? this.channel.name : I18n.t("common.unknownChannel");
+        },
+        I18n() {
+            return I18n;
         },
     },
 }

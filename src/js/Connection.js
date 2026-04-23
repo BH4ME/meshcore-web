@@ -3,6 +3,7 @@ import {BleConnection, Constants, SerialConnection} from "@liamcottle/meshcore.j
 import Database from "./Database.js";
 import Utils from "./Utils.js";
 import NotificationUtils from "./NotificationUtils.js";
+import I18n from "./I18n.js";
 
 class Connection {
 
@@ -23,7 +24,7 @@ class Connection {
             }
 
             // show error message
-            alert("failed to connect to ble device!");
+            alert(I18n.t("connection.failedBle"));
 
             return false;
 
@@ -44,7 +45,7 @@ class Connection {
             }
 
             // show error message
-            alert("failed to connect to serial device!");
+            alert(I18n.t("connection.failedSerial"));
 
             return false;
 
@@ -185,8 +186,8 @@ class Connection {
         GlobalState.channels = [
             {
                 idx: 0,
-                name: "Public Channel",
-                description: "This is the default public channel.",
+                name: I18n.t("connection.publicChannelName"),
+                description: I18n.t("connection.publicChannelDescription"),
             },
         ];
     }

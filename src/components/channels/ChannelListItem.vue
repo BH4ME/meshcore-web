@@ -3,8 +3,8 @@
 
         <!-- name and info -->
         <div class="mr-auto">
-            <div>{{ channel.name }}</div>
-            <div class="text-sm text-gray-500">{{ channel.description }}</div>
+            <div>{{ displayName }}</div>
+            <div class="text-sm text-gray-500">{{ displayDescription }}</div>
         </div>
 
         <!-- unread messages count -->
@@ -26,6 +26,7 @@
 <script>
 import ChannelDropDownMenu from "./ChannelDropDownMenu.vue";
 import Database from "../../js/Database.js";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ChannelListItem',
@@ -68,6 +69,20 @@ export default {
         async onChannelMessagesReadStateChange(channelMessagesReadState) {
             const messagesLastReadTimestamp = channelMessagesReadState?.timestamp ?? 0;
             await this.updateUnreadMessagesCount(messagesLastReadTimestamp);
+        },
+    },
+    computed: {
+        displayName() {
+            if(this.channel?.idx === 0){
+                return I18n.t("connection.publicChannelName");
+            }
+            return this.channel?.name;
+        },
+        displayDescription() {
+            if(this.channel?.idx === 0){
+                return I18n.t("connection.publicChannelDescription");
+            }
+            return this.channel?.description;
         },
     },
 }

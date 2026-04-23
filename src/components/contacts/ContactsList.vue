@@ -4,7 +4,7 @@
         <!-- search -->
         <div v-if="contacts.length > 0" class="flex bg-white border-b border-gray-300 divide-x">
             <div class="flex p-1 w-full">
-                <input v-model="contactsSearchTerm" type="text" :placeholder="`Search ${contacts.length} ${contacts.length === 1 ? 'Contact' : 'Contacts'}...`" class="h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <input v-model="contactsSearchTerm" type="text" :placeholder="searchPlaceholder" class="h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <div class="flex text-gray-500">
                 <DropDownMenu class="mx-auto my-auto">
@@ -16,27 +16,27 @@
                         </IconButton>
                     </template>
                     <template v-slot:items>
-                        <div class="p-2 border-b text-sm font-bold">Order</div>
+                        <div class="p-2 border-b text-sm font-bold">{{ I18n.t('contactsList.order') }}</div>
                         <DropDownMenuItem @click="order = 'a-z'">
                             <input type="radio" :checked="order === 'a-z'"/>
-                            <div class="my-auto" :class="{ 'font-bold': order === 'a-z' }">A-Z</div>
+                            <div class="my-auto" :class="{ 'font-bold': order === 'a-z' }">{{ I18n.t('contactsList.orderAz') }}</div>
                         </DropDownMenuItem>
                         <DropDownMenuItem @click="order = 'heard-recently'">
                             <input type="radio" :checked="order === 'heard-recently'"/>
-                            <div class="my-auto" :class="[ order === 'heard-recently' ? 'font-bold' : '' ]">Heard Recently</div>
+                            <div class="my-auto" :class="[ order === 'heard-recently' ? 'font-bold' : '' ]">{{ I18n.t('contactsList.orderHeardRecently') }}</div>
                         </DropDownMenuItem>
-                        <div class="p-2 border-b text-sm font-bold">Filter</div>
+                        <div class="p-2 border-b text-sm font-bold">{{ I18n.t('contactsList.filter') }}</div>
                         <DropDownMenuItem @click="filter = 'all'">
                             <input type="radio" :checked="filter === 'all'"/>
-                            <div class="my-auto" :class="[ filter === 'all' ? 'font-bold' : '' ]">All</div>
+                            <div class="my-auto" :class="[ filter === 'all' ? 'font-bold' : '' ]">{{ I18n.t('contactsList.filterAll') }}</div>
                         </DropDownMenuItem>
                         <DropDownMenuItem @click="filter = 'chat'">
                             <input type="radio" :checked="filter === 'chat'"/>
-                            <div class="my-auto" :class="[ filter === 'chat' ? 'font-bold' : '' ]">Users</div>
+                            <div class="my-auto" :class="[ filter === 'chat' ? 'font-bold' : '' ]">{{ I18n.t('contactsList.filterUsers') }}</div>
                         </DropDownMenuItem>
                         <DropDownMenuItem @click="filter = 'repeater'">
                             <input type="radio" :checked="filter === 'repeater'"/>
-                            <div class="my-auto" :class="[ filter === 'repeater' ? 'font-bold' : '' ]">Repeaters</div>
+                            <div class="my-auto" :class="[ filter === 'repeater' ? 'font-bold' : '' ]">{{ I18n.t('contactsList.filterRepeaters') }}</div>
                         </DropDownMenuItem>
                     </template>
                 </DropDownMenu>
@@ -56,8 +56,8 @@
                         <path fill-rule="evenodd" d="M5.636 4.575a.75.75 0 0 1 0 1.061 9 9 0 0 0 0 12.728.75.75 0 1 1-1.06 1.06c-4.101-4.1-4.101-10.748 0-14.849a.75.75 0 0 1 1.06 0Zm12.728 0a.75.75 0 0 1 1.06 0c4.101 4.1 4.101 10.75 0 14.85a.75.75 0 1 1-1.06-1.061 9 9 0 0 0 0-12.728.75.75 0 0 1 0-1.06ZM7.757 6.697a.75.75 0 0 1 0 1.06 6 6 0 0 0 0 8.486.75.75 0 0 1-1.06 1.06 7.5 7.5 0 0 1 0-10.606.75.75 0 0 1 1.06 0Zm8.486 0a.75.75 0 0 1 1.06 0 7.5 7.5 0 0 1 0 10.606.75.75 0 0 1-1.06-1.06 6 6 0 0 0 0-8.486.75.75 0 0 1 0-1.06ZM9.879 8.818a.75.75 0 0 1 0 1.06 3 3 0 0 0 0 4.243.75.75 0 1 1-1.061 1.061 4.5 4.5 0 0 1 0-6.364.75.75 0 0 1 1.06 0Zm4.242 0a.75.75 0 0 1 1.061 0 4.5 4.5 0 0 1 0 6.364.75.75 0 0 1-1.06-1.06 3 3 0 0 0 0-4.243.75.75 0 0 1 0-1.061ZM10.875 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
                     </svg>
                 </div>
-                <div class="font-semibold">No Contacts</div>
-                <div>If someone Adverts, they will show up here.</div>
+                <div class="font-semibold">{{ I18n.t('contactsList.emptyTitle') }}</div>
+                <div>{{ I18n.t('contactsList.emptyBody') }}</div>
             </div>
         </div>
 
@@ -72,6 +72,7 @@ import DropDownMenu from "../DropDownMenu.vue";
 import DropDownMenuItem from "../DropDownMenuItem.vue";
 import ContactListItem from "./ContactListItem.vue";
 import ConnectButtons from "../connect/ConnectButtons.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ContactsList',
@@ -157,6 +158,18 @@ export default {
     computed: {
         GlobalState() {
             return GlobalState;
+        },
+        I18n() {
+            return I18n;
+        },
+        searchPlaceholder() {
+            const label = this.contacts.length === 1
+                ? I18n.t("contactsList.labelContact")
+                : I18n.t("contactsList.labelContacts");
+            return I18n.t("contactsList.search", {
+                count: this.contacts.length,
+                label: label,
+            });
         },
         searchedContacts() {
 

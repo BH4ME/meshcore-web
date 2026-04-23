@@ -2,7 +2,7 @@
     <Page>
 
         <!-- app bar -->
-        <AppBar title="RX Log">
+        <AppBar :title="I18n.t('page.rxLog')">
             <template v-slot:trailing>
                 <IconButton @click="clearLog" class="bg-transparent text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -15,7 +15,7 @@
         <!-- search -->
         <div v-if="logs.length > 0" class="flex bg-white border-b border-gray-300 divide-x">
             <div class="flex p-1 w-full">
-                <input v-model="search" type="text" :placeholder="`Search ${logs.length} ${logs.length === 1 ? 'Log' : 'Logs'}...`" class="h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <input v-model="search" type="text" :placeholder="searchPlaceholder" class="h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
         </div>
 
@@ -29,17 +29,17 @@
                             <div v-for="line of formatPacketPayload(log.packet)">{{ line }}</div>
                         </div>
                         <div @click="showPath(log.packet.path)" class="text-sm text-gray-500 cursor-pointer">
-                            <span v-if="log.packet.path.length > 0">Path: {{ formatPath(log.packet.path) }}</span>
-                            <span v-else>Path: (direct)</span>
+                            <span v-if="log.packet.path.length > 0">{{ I18n.t('rxlog.path', { value: formatPath(log.packet.path) }) }}</span>
+                            <span v-else>{{ I18n.t('rxlog.pathDirect') }}</span>
                         </div>
                         <div class="text-sm text-gray-500 space-x-1">
-                            <span>Hops: {{ log.packet.path.length }}</span>
+                            <span>{{ I18n.t('rxlog.hops', { value: log.packet.path.length }) }}</span>
                             <span>•</span>
-                            <span>SNR: {{ log.snr }}</span>
+                            <span>{{ I18n.t('rxlog.snr', { value: log.snr }) }}</span>
                         </div>
-                        <div class="text-sm text-gray-500">Hash: {{ log.packet_hash.substring(0, 8).toUpperCase() }}</div>
+                        <div class="text-sm text-gray-500">{{ I18n.t('rxlog.hash', { value: log.packet_hash.substring(0, 8).toUpperCase() }) }}</div>
                     </div>
-                    <div v-else>Failed to decode packet</div>
+                    <div v-else>{{ I18n.t('rxlog.decodeFailed') }}</div>
                 </div>
             </div>
         </div>
@@ -54,6 +54,7 @@ import GlobalState from "../../js/GlobalState.js";
 import {Advert, Constants, Packet, BufferUtils} from "@liamcottle/meshcore.js";
 import ChannelDropDownMenu from "../channels/ChannelDropDownMenu.vue";
 import IconButton from "../IconButton.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'RxLogPage',
@@ -89,13 +90,13 @@ export default {
         },
         showPath(path) {
 
-            const pathList = [`${path.length} Hops`];
+            const pathList = [I18n.t("rxlog.pathHops", { count: path.length })];
             const pathArray = Array.from(path);
             for(var i = 0; i < pathArray.length; i++){
                 const pathByte = pathArray[i];
                 const contact = this.findContactByPublicKeyPrefix([pathByte]);
                 const contactName = contact?.advName ?? "?";
-                pathList.push(`[${i + 1}]: ${contactName}`);
+                pathList.push(I18n.t("rxlog.pathItem", { index: i + 1, name: contactName }));
             }
 
             alert(pathList.join("\n"));
@@ -115,8 +116,8 @@ export default {
                 const destinationContactName = this.getContactNameByPublicKeyPrefix([parsed.dest]);
                 return [
                     `[${source} -> ${destination}]`,
-                    `Source: ${sourceContactName}`,
-                    `Dest: ${destinationContactName}`,
+                    I18n.t("rxlog.source", { value: sourceContactName }),
+                    I18n.t("rxlog.dest", { value: destinationContactName }),
                 ];
             } else if(payloadType === "ADVERT"){
                 try {
@@ -125,10 +126,10 @@ export default {
                     const parsedAppData = advert.parseAppData();
                     return [
                         `[${parsedAppData.type}] ${parsedAppData.name}`,
-                        `Public Key: <${publicKeyHex.slice(0, 8)}...${publicKeyHex.slice(publicKeyHex.length - 8)}>`,
+                        I18n.t("rxlog.publicKey", { value: `${publicKeyHex.slice(0, 8)}...${publicKeyHex.slice(publicKeyHex.length - 8)}` }),
                     ];
                 } catch(e) {
-                    return "Failed to parse Advert";
+                    return I18n.t("rxlog.parseAdvertFailed");
                 }
             } else if(payloadType === "ANON_REQ"){
                 const parsed = packet.parsePayload();
@@ -138,8 +139,8 @@ export default {
                 const destinationContactName = this.getContactNameByPublicKeyPrefix([parsed.dest]);
                 return [
                     `[${source} -> ${destination}]`,
-                    `Source: ${sourceContactName}`,
-                    `Dest: ${destinationContactName}`,
+                    I18n.t("rxlog.source", { value: sourceContactName }),
+                    I18n.t("rxlog.dest", { value: destinationContactName }),
                 ];
             }
 
@@ -151,7 +152,7 @@ export default {
             // check if self
             const selfPublicKeyPrefix = GlobalState.selfInfo?.publicKey.slice(0, publicKeyPrefix.length);
             if(BufferUtils.areBuffersEqual(publicKeyPrefix, selfPublicKeyPrefix)){
-                return GlobalState?.selfInfo?.name ?? "(this device)";
+                return GlobalState?.selfInfo?.name ?? I18n.t("common.thisDevice");
             }
 
             // check if we found a matching contact
@@ -161,7 +162,7 @@ export default {
             }
 
             // nothing found
-            return "Unknown Contact";
+            return I18n.t("common.unknownContact");
 
         },
         async getPacketHash(packet) {
@@ -202,6 +203,18 @@ export default {
         },
     },
     computed: {
+        I18n() {
+            return I18n;
+        },
+        searchPlaceholder() {
+            const label = this.logs.length === 1
+                ? I18n.t("rxlog.labelLog")
+                : I18n.t("rxlog.labelLogs");
+            return I18n.t("rxlog.search", {
+                count: this.logs.length,
+                label: label,
+            });
+        },
         searchedLogs() {
             return this.logs.filter((log) => {
                 const search = this.search.toLowerCase();

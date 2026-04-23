@@ -4,31 +4,34 @@
             <img src="/icon.png" class="size-12 rounded"/>
         </div>
         <div class="my-auto mr-auto overflow-hidden">
-            <div class="font-bold">MeshCore Client</div>
+            <div class="font-bold">{{ I18n.t('header.clientName') }}</div>
             <div class="text-sm truncate">
 
                 <!-- connected or configured -->
                 <span v-if="GlobalState.connection != null">
                     <span v-if="GlobalState.selfInfo">
-                        <span v-if="GlobalState.batteryPercentage">Battery {{ GlobalState.batteryPercentage }}% - </span>
+                        <span v-if="GlobalState.batteryPercentage">{{ I18n.t('header.battery', { value: GlobalState.batteryPercentage }) }} - </span>
                         <span>{{ GlobalState.selfInfo.name }}</span>
                     </span>
-                    <span v-else>Connecting...</span>
+                    <span v-else>{{ I18n.t('header.connecting') }}</span>
                 </span>
 
                 <!-- disconnected -->
                 <span v-else>
-                    Built by <a href="https://liamcottle.com" target="_blank" class="text-blue-600 hover:underline">Liam Cottle</a>
+                    {{ I18n.t('header.builtBy') }} <a href="https://liamcottle.com" target="_blank" class="text-blue-600 hover:underline">Liam Cottle</a>
                 </span>
 
             </div>
         </div>
         <div class="my-auto flex font-semibold">
+            <button @click="I18n.toggleLanguage()" type="button" class="my-auto bg-gray-500 text-white px-2 py-1 rounded shadow hover:bg-gray-400 mr-1">
+                {{ I18n.language === 'zh' ? I18n.t('lang.english') : I18n.t('lang.chinese') }}
+            </button>
 
             <!-- connect button -->
             <RouterLink v-if="GlobalState.connection == null" :to="{ name: 'connect' }">
                 <div class="bg-blue-500 text-white px-2 py-1 rounded shadow hover:bg-blue-400">
-                    Connect
+                    {{ I18n.t('header.connect') }}
                 </div>
             </RouterLink>
 
@@ -43,8 +46,8 @@
                         </button>
                     </template>
                     <template v-slot:items>
-                        <DropDownMenuItem @click="sendZeroHopAdvert">Advert (Zero Hop)</DropDownMenuItem>
-                        <DropDownMenuItem @click="sendFloodAdvert">Advert (Flood Routed)</DropDownMenuItem>
+                        <DropDownMenuItem @click="sendZeroHopAdvert">{{ I18n.t('header.advertZeroHop') }}</DropDownMenuItem>
+                        <DropDownMenuItem @click="sendFloodAdvert">{{ I18n.t('header.advertFlood') }}</DropDownMenuItem>
                     </template>
                 </DropDownMenu>
                 <RouterLink :to="{ name: 'settings' }">
@@ -60,7 +63,7 @@
                         <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                     </svg>
                     </span>
-                    <span class="hidden sm:block">Disconnect</span>
+                    <span class="hidden sm:block">{{ I18n.t('header.disconnect') }}</span>
                 </button>
             </div>
 
@@ -71,6 +74,7 @@
 <script>
 import GlobalState from "../js/GlobalState.js";
 import Connection from "../js/Connection.js";
+import I18n from "../js/I18n.js";
 import IconButton from "./IconButton.vue";
 import DropDownMenu from "./DropDownMenu.vue";
 import DropDownMenuItem from "./DropDownMenuItem.vue";
@@ -81,11 +85,11 @@ export default {
     methods: {
         async sendZeroHopAdvert() {
             await GlobalState.connection.sendZeroHopAdvert();
-            alert("A zero hop advert has been sent.");
+            alert(I18n.t("header.zeroHopSent"));
         },
         async sendFloodAdvert() {
             await GlobalState.connection.sendFloodAdvert();
-            alert("A flood routed advert has been sent.");
+            alert(I18n.t("header.floodSent"));
         },
         async disconnect() {
             await Connection.disconnect();
@@ -94,6 +98,9 @@ export default {
     computed: {
         GlobalState() {
             return GlobalState;
+        },
+        I18n() {
+            return I18n;
         },
     },
 }

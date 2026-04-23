@@ -25,10 +25,10 @@
 
                 <!-- hops away -->
                 <span class="flex my-auto text-sm text-gray-500 space-x-1">
-                    <span v-if="contact.outPathLen === -1">• No Path (Flood)</span>
-                    <span v-else-if="contact.outPathLen === 0">• Direct</span>
-                    <span v-else-if="contact.outPathLen === 1">• 1 Hop</span>
-                    <span v-else>• {{ contact.outPathLen }} Hops</span>
+                    <span v-if="contact.outPathLen === -1">• {{ I18n.t('contact.noPathFlood') }}</span>
+                    <span v-else-if="contact.outPathLen === 0">• {{ I18n.t('contact.direct') }}</span>
+                    <span v-else-if="contact.outPathLen === 1">• {{ I18n.t('contact.oneHop') }}</span>
+                    <span v-else>• {{ I18n.t('contact.manyHops', { count: contact.outPathLen }) }}</span>
                 </span>
 
             </div>
@@ -57,6 +57,7 @@ import TimeUtils from "../../js/TimeUtils.js";
 import ContactDropDownMenu from "./ContactDropDownMenu.vue";
 import Database from "../../js/Database.js";
 import ContactIcon from "./ContactIcon.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ContactListItem',
@@ -114,6 +115,9 @@ export default {
     computed: {
         GlobalState() {
             return GlobalState;
+        },
+        I18n() {
+            return I18n;
         },
     },
 }

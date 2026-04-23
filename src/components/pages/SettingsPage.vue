@@ -2,7 +2,7 @@
     <Page>
 
         <!-- app bar -->
-        <AppBar title="Settings">
+        <AppBar :title="I18n.t('page.settings')">
             <template v-slot:trailing>
                 <SaveButton @click="save" :is-saving="isSaving"/>
             </template>
@@ -27,7 +27,7 @@
                         &lt;{{ bytesToHex(GlobalState.selfInfo.publicKey.slice(0, 4)) }}...{{ bytesToHex(GlobalState.selfInfo.publicKey.slice(-4)) }}&gt;
                     </div>
                     <div v-if="deviceInfo" class="text-sm text-gray-500">
-                        <span>Firmware Build Date: {{ deviceInfo.firmware_build_date }}</span>
+                        <span>{{ I18n.t('settings.firmwareBuildDate', { value: deviceInfo.firmware_build_date }) }}</span>
                     </div>
                 </div>
 
@@ -37,21 +37,21 @@
                     <!-- public info -->
                     <div class="bg-white divide-y">
 
-                        <div class="bg-white p-2 font-semibold">Public Info</div>
+                        <div class="bg-white p-2 font-semibold">{{ I18n.t('settings.publicInfo') }}</div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Name</div>
-                            <input v-model="name" type="text" placeholder="e.g: Anonymous" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.name') }}</div>
+                            <input v-model="name" type="text" :placeholder="I18n.t('settings.namePlaceholder')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Latitude</div>
-                            <input v-model="latitude" type="number" placeholder="e.g: -38.664646" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.latitude') }}</div>
+                            <input v-model="latitude" type="number" :placeholder="I18n.t('settings.latitudePlaceholder')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Longitude</div>
-                            <input v-model="longitude" type="number" placeholder="e.g: 178.023507" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.longitude') }}</div>
+                            <input v-model="longitude" type="number" :placeholder="I18n.t('settings.longitudePlaceholder')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
 
                     </div>
@@ -59,15 +59,15 @@
                     <!-- radio settings -->
                     <div class="bg-white divide-y">
 
-                        <div class="bg-white p-2 font-semibold">Radio Settings</div>
+                        <div class="bg-white p-2 font-semibold">{{ I18n.t('settings.radioSettings') }}</div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Frequency (MHz)</div>
-                            <input v-model="radioFreq" type="number" placeholder="e.g: 917.375" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.frequency') }}</div>
+                            <input v-model="radioFreq" type="number" :placeholder="I18n.t('settings.frequencyPlaceholder')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Bandwidth</div>
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.bandwidth') }}</div>
                             <select v-model="radioBw" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option :value="7800">7.8 kHz</option>
                                 <option :value="10400">10.4 kHz</option>
@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Spreading Factor</div>
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.spreadingFactor') }}</div>
                             <select v-model="radioSf" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option :value="7">7</option>
                                 <option :value="8">8</option>
@@ -95,7 +95,7 @@
                         </div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Coding Rate</div>
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.codingRate') }}</div>
                             <select v-model="radioCr" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option :value="5">5</option>
                                 <option :value="6">6</option>
@@ -105,8 +105,8 @@
                         </div>
 
                         <div class="w-full p-2">
-                            <div class="block mb-2 text-sm font-medium text-gray-900">Transmit Power (dBm)</div>
-                            <input v-model="txPower" type="number" placeholder="e.g: 22" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <div class="block mb-2 text-sm font-medium text-gray-900">{{ I18n.t('settings.txPower') }}</div>
+                            <input v-model="txPower" type="number" :placeholder="I18n.t('settings.txPowerPlaceholder')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
 
                     </div>
@@ -114,7 +114,7 @@
                     <!-- commands -->
                     <div class="flex flex-col divide-y bg-white">
 
-                        <div class="bg-white p-2 font-semibold">Commands</div>
+                        <div class="bg-white p-2 font-semibold">{{ I18n.t('settings.commands') }}</div>
 
                         <RouterLink :to="{ name: 'rxlog' }">
                             <div class="flex cursor-pointer px-2 py-3 bg-white hover:bg-gray-50">
@@ -127,7 +127,7 @@
                                 </div>
 
                                 <!-- title -->
-                                <div class="my-auto mr-auto">RX Log</div>
+                                <div class="my-auto mr-auto">{{ I18n.t('page.rxLog') }}</div>
 
                                 <!-- trailing -->
                                 <div class="my-auto mr-2 text-gray-500">
@@ -149,7 +149,7 @@
                             </div>
 
                             <!-- title -->
-                            <div class="my-auto mr-auto">Reboot</div>
+                            <div class="my-auto mr-auto">{{ I18n.t('settings.reboot') }}</div>
 
                             <!-- trailing -->
                             <div class="my-auto mr-2 text-gray-500">
@@ -177,6 +177,7 @@ import AppBar from "../AppBar.vue";
 import SaveButton from "../SaveButton.vue";
 import Page from "./Page.vue";
 import Utils from "../../js/Utils.js";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'SettingsPage',
@@ -237,37 +238,37 @@ export default {
 
                 // ensure name provided
                 if(!this.name || this.name.length === 0){
-                    alert("Name is required!");
+                    alert(I18n.t("settings.nameRequired"));
                     return;
                 }
 
                 // ensure frequency provided
                 if(!this.radioFreq){
-                    alert("Frequency is required!");
+                    alert(I18n.t("settings.frequencyRequired"));
                     return;
                 }
 
                 // ensure bandwidth provided
                 if(!this.radioBw){
-                    alert("Bandwidth is required!");
+                    alert(I18n.t("settings.bandwidthRequired"));
                     return;
                 }
 
                 // ensure spreading factor provided
                 if(!this.radioSf){
-                    alert("Spreading Factor is required!");
+                    alert(I18n.t("settings.spreadingFactorRequired"));
                     return;
                 }
 
                 // ensure coding rate provided
                 if(!this.radioCr){
-                    alert("Coding Rate is required!");
+                    alert(I18n.t("settings.codingRateRequired"));
                     return;
                 }
 
                 // ensure transmit power provided
                 if(!this.txPower){
-                    alert("Transmit Power is required!");
+                    alert(I18n.t("settings.txPowerRequired"));
                     return;
                 }
 
@@ -300,11 +301,11 @@ export default {
                 await Connection.loadSelfInfo();
 
                 // show success alert
-                alert("Settings saved.");
+                alert(I18n.t("settings.saved"));
 
             } catch(e) {
                 console.log(e);
-                alert("Failed to save settings!");
+                alert(I18n.t("settings.saveFailed"));
             } finally {
 
                 // show loading
@@ -316,7 +317,7 @@ export default {
         async reboot() {
 
             // ask user to confirm action
-            if(!confirm("Are you sure you want to reboot this device?")){
+            if(!confirm(I18n.t("settings.rebootConfirm"))){
                 return;
             }
 
@@ -324,13 +325,13 @@ export default {
             try {
                 await Connection.reboot();
             } catch(e) {
-                alert("Failed to reboot device!");
+                alert(I18n.t("settings.rebootFailed"));
                 console.log(e);
                 return;
             }
 
             // tell user device is rebooting
-            alert("Device is rebooting. You will need to reconnect!");
+            alert(I18n.t("settings.rebooting"));
 
             // go back to main page
             this.$router.push({
@@ -345,6 +346,9 @@ export default {
     computed: {
         GlobalState() {
             return GlobalState;
+        },
+        I18n() {
+            return I18n;
         },
     },
 }

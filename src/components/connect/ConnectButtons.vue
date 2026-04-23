@@ -13,10 +13,10 @@
                     <path d="M112,64H72a8,8,0,0,0-8,8V184a8,8,0,0,0,8,8h40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
                 </svg>
             </div>
-            <div class="font-semibold">Not Connected</div>
-            <div>Connect a MeshCore device to continue</div>
-            <div class="text-red-500">This web client is no longer maintained.</div>
-            <div class="text-red-500">Please use the new app: <a target="_blank" href="https://app.meshcore.nz" class="text-blue-500 underline">https://app.meshcore.nz</a></div>
+            <div class="font-semibold">{{ I18n.t('connect.notConnected') }}</div>
+            <div>{{ I18n.t('connect.connectDevice') }}</div>
+            <div class="text-red-500">{{ I18n.t('connect.legacyNotice') }}</div>
+            <div class="text-red-500">{{ I18n.t('connect.useNewApp') }} <a target="_blank" href="https://app.meshcore.nz" class="text-blue-500 underline">https://app.meshcore.nz</a></div>
         </div>
 
         <!-- bluetooth -->
@@ -30,7 +30,7 @@
                     <line x1="64" y1="176" x2="128" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
                 </svg>
             </span>
-            <span>Connect via Bluetooth</span>
+            <span>{{ I18n.t('connect.connectBluetooth') }}</span>
         </button>
 
         <!-- serial -->
@@ -45,7 +45,7 @@
                     <path d="M112,64H72a8,8,0,0,0-8,8V184a8,8,0,0,0,8,8h40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
                 </svg>
             </span>
-            <span>Connect via Serial</span>
+            <span>{{ I18n.t('connect.connectSerial') }}</span>
         </button>
 
     </div>
@@ -53,6 +53,7 @@
 
 <script>
 import Connection from "../../js/Connection.js";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ConnectButtons',
@@ -70,6 +71,11 @@ export default {
                     name: "main",
                 });
             }
+        },
+    },
+    computed: {
+        I18n() {
+            return I18n;
         },
     },
 }

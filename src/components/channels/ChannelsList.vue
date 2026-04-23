@@ -15,8 +15,8 @@
                         <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                     </svg>
                 </div>
-                <div class="font-semibold">No Channels</div>
-                <div>Add an encrypted channel to send broadcast messages.</div>
+                <div class="font-semibold">{{ I18n.t('channelsList.emptyTitle') }}</div>
+                <div>{{ I18n.t('channelsList.emptyBody') }}</div>
             </div>
         </div>
 
@@ -25,6 +25,7 @@
 
 <script>
 import ChannelListItem from "./ChannelListItem.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ChannelsList',
@@ -40,6 +41,11 @@ export default {
     methods: {
         onChannelClick(channel) {
             this.$emit("channel-click", channel);
+        },
+    },
+    computed: {
+        I18n() {
+            return I18n;
         },
     },
 }

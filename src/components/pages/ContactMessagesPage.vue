@@ -2,7 +2,7 @@
     <Page>
 
         <!-- app bar -->
-        <AppBar title="Direct Messages" :subtitle="subtitle">
+        <AppBar :title="I18n.t('page.directMessages')" :subtitle="subtitle">
             <template v-slot:trailing>
                 <ContactDropDownMenu
                     v-if="contact"
@@ -27,6 +27,7 @@ import MessageViewer from "../messages/MessageViewer.vue";
 import GlobalState from "../../js/GlobalState.js";
 import Utils from "../../js/Utils.js";
 import ContactDropDownMenu from "../contacts/ContactDropDownMenu.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'ContactMessagesPage',
@@ -63,7 +64,10 @@ export default {
             return GlobalState.contacts.find((contact) => Utils.bytesToHex(contact.publicKey) === this.publicKey);
         },
         subtitle() {
-            return this.contact ? this.contact.advName : "Unknown Contact";
+            return this.contact ? this.contact.advName : I18n.t("common.unknownContact");
+        },
+        I18n() {
+            return I18n;
         },
     },
 }

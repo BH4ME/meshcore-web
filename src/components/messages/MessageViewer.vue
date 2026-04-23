@@ -61,11 +61,11 @@
                                 <!-- state label -->
                                 <div class="my-auto">
                                     <span v-if="isMessageFailed(message)" class="flex space-x-1">
-                                        <span>Failed: {{ message.error }}</span>
-                                        <span @click="retrySendingMessage(message)" class="text-blue-500 underline cursor-pointer">Retry?</span>
+                                        <span>{{ I18n.t('message.failedWithError', { error: message.error }) }}</span>
+                                        <span @click="retrySendingMessage(message)" class="text-blue-500 underline cursor-pointer">{{ I18n.t('message.retry') }}</span>
                                     </span>
-                                    <span v-else-if="isMessageDelivered(message)" @click="showDeliveredMessageInfo(message)" class="cursor-pointer">Delivered</span>
-                                    <span v-else>Sending</span>
+                                    <span v-else-if="isMessageDelivered(message)" @click="showDeliveredMessageInfo(message)" class="cursor-pointer">{{ I18n.t('message.delivered') }}</span>
+                                    <span v-else>{{ I18n.t('message.sending') }}</span>
                                 </div>
 
                                 <!-- delivered icon -->
@@ -109,12 +109,12 @@
                 @keydown.enter.exact.native="onEnterPressed"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 rows="3"
-                placeholder="Send a message..."></textarea>
+                :placeholder="I18n.t('message.placeholder')"></textarea>
 
             <!-- send button -->
             <div class="inline-flex rounded-md shadow-sm">
                 <button @click="sendMessage()" :disabled="!canSendMessage" type="button" class="h-full my-auto inline-flex items-center rounded-md px-2.5 py-1.5 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2" :class="[ canSendMessage ? 'bg-blue-500 hover:bg-blue-400 focus-visible:outline-blue-500' : 'bg-gray-400 focus-visible:outline-gray-500 cursor-not-allowed']">
-                    Send
+                    {{ I18n.t('message.send') }}
                 </button>
             </div>
 
@@ -131,6 +131,7 @@ import MessageUtils from "../../js/MessageUtils.js";
 import DeviceUtils from "../../js/DeviceUtils.js";
 import TimeUtils from "../../js/TimeUtils.js";
 import Utils from "../../js/Utils.js";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'MessageViewer',
@@ -172,7 +173,7 @@ export default {
 
             // can't send if not connected
             if(!GlobalState.connection){
-                alert("Not connected to device");
+                alert(I18n.t("message.notConnected"));
                 return false;
             }
 
@@ -205,7 +206,7 @@ export default {
 
             } catch(e) {
                 console.log(e);
-                alert("failed to send message");
+                alert(I18n.t("message.sendFailed"));
             }
 
             // force user to wait 1 second before sending another message
@@ -298,12 +299,12 @@ export default {
 
             // basic info
             const info = [
-                `Sent: ${TimeUtils.millisecondsToDateTimeString(message.timestamp)}`,
+                I18n.t("message.sentAt", { value: TimeUtils.millisecondsToDateTimeString(message.timestamp) }),
             ];
 
             // add round trip time if available
             if(message.rtt){
-                info.push(`RTT: ${message.rtt}ms`);
+                info.push(I18n.t("message.rtt", { value: message.rtt }));
             }
 
             // show info
@@ -314,8 +315,8 @@ export default {
 
             // basic info
             const info = [
-                `Sent: ${TimeUtils.secondsToDateTimeString(message.sender_timestamp)}`,
-                `Received: ${TimeUtils.millisecondsToDateTimeString(message.timestamp)}`,
+                I18n.t("message.sentAt", { value: TimeUtils.secondsToDateTimeString(message.sender_timestamp) }),
+                I18n.t("message.receivedAt", { value: TimeUtils.millisecondsToDateTimeString(message.timestamp) }),
             ];
 
             // todo show hops
@@ -347,6 +348,9 @@ export default {
         },
     },
     computed: {
+        I18n() {
+            return I18n;
+        },
         canSendMessage() {
 
             // can't send if contact is not selected

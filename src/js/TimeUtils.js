@@ -1,4 +1,5 @@
 import moment from "moment";
+import I18n from "./I18n.js";
 
 class TimeUtils {
 
@@ -9,7 +10,7 @@ class TimeUtils {
             return TimeUtils.getTimeAgoShortHand(moment.unix(unixSeconds).toDate());
         }
 
-        return "Unknown";
+        return I18n.t("time.unknown");
 
     }
 
@@ -49,40 +50,40 @@ class TimeUtils {
         // years
         const years = Math.floor(duration.asYears());
         if(years > 0){
-            return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+            return I18n.t(years === 1 ? "time.yearAgo" : "time.yearsAgo", { count: years });
         }
 
         // months
         const months = Math.floor(duration.asMonths());
         if(months > 0){
-            return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+            return I18n.t(months === 1 ? "time.monthAgo" : "time.monthsAgo", { count: months });
         }
 
         // weeks
         const weeks = Math.floor(duration.asWeeks());
         if(weeks > 0){
-            return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+            return I18n.t(weeks === 1 ? "time.weekAgo" : "time.weeksAgo", { count: weeks });
         }
 
         // days
         const days = Math.floor(duration.asDays());
         if(days > 0){
-            return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+            return I18n.t(days === 1 ? "time.dayAgo" : "time.daysAgo", { count: days });
         }
 
         // hours
         const hours = Math.floor(duration.asHours());
         if(hours > 0){
-            return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+            return I18n.t(hours === 1 ? "time.hourAgo" : "time.hoursAgo", { count: hours });
         }
 
         // minutes
         const minutes = Math.floor(duration.asMinutes());
         if(minutes > 0){
-            return `${minutes} ${minutes === 1 ? 'min' : 'mins'} ago`;
+            return I18n.t(minutes === 1 ? "time.minAgo" : "time.minsAgo", { count: minutes });
         }
 
-        return "now";
+        return I18n.t("time.now");
 
     };
 

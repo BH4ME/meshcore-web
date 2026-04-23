@@ -7,8 +7,8 @@
         <!-- tabs -->
         <div v-if="GlobalState.connection || (contacts.length > 0 || channels.length > 0)" class="bg-white border-b border-gray-200">
             <div class="-mb-px flex">
-                <div @click="tab = 'contacts'" class="w-full border-b-2 py-3 px-1 text-center text-sm font-medium cursor-pointer" :class="[ tab === 'contacts' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700']">Contacts</div>
-                <div @click="tab = 'channels'" class="w-full border-b-2 py-3 px-1 text-center text-sm font-medium cursor-pointer" :class="[ tab === 'channels' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700']">Channels</div>
+                <div @click="tab = 'contacts'" class="w-full border-b-2 py-3 px-1 text-center text-sm font-medium cursor-pointer" :class="[ tab === 'contacts' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700']">{{ I18n.t('main.contacts') }}</div>
+                <div @click="tab = 'channels'" class="w-full border-b-2 py-3 px-1 text-center text-sm font-medium cursor-pointer" :class="[ tab === 'channels' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700']">{{ I18n.t('main.channels') }}</div>
             </div>
         </div>
 
@@ -35,6 +35,7 @@ import ConnectButtons from "../connect/ConnectButtons.vue";
 import ContactsList from "../contacts/ContactsList.vue";
 import Utils from "../../js/Utils.js";
 import ChannelsList from "../channels/ChannelsList.vue";
+import I18n from "../../js/I18n.js";
 
 export default {
     name: 'MainPage',
@@ -60,7 +61,7 @@ export default {
             }
 
             // user clicked an unsupported contact type
-            alert("Messaging this contact type is not supported.");
+            alert(I18n.t("main.unsupportedContactType"));
 
         },
         async onChannelClick(channel) {
@@ -81,6 +82,9 @@ export default {
         },
         channels() {
             return GlobalState.channels;
+        },
+        I18n() {
+            return I18n;
         },
         tab: {
             get(){
