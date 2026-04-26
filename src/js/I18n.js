@@ -1,6 +1,6 @@
 import { reactive } from "vue";
 
-const STORAGE_KEY = "meshcore.language";
+const STORAGE_KEY = "mecho.language";
 const SUPPORTED_LANGUAGES = ["en", "zh"];
 
 const messages = {
@@ -10,10 +10,9 @@ const messages = {
             english: "English",
         },
         header: {
-            clientName: "MeshCore Client",
+            clientName: "Mecho Client",
             battery: "Battery {value}%",
             connecting: "Connecting...",
-            builtBy: "Built by",
             connect: "Connect",
             disconnect: "Disconnect",
             advertZeroHop: "Advert (Zero Hop)",
@@ -28,11 +27,15 @@ const messages = {
         },
         connect: {
             notConnected: "Not Connected",
-            connectDevice: "Connect a MeshCore device to continue",
-            legacyNotice: "This web client is no longer maintained.",
-            useNewApp: "Please use the new app:",
+            connectDevice: "Connect a Mecho device to continue",
             connectBluetooth: "Connect via Bluetooth",
             connectSerial: "Connect via Serial",
+            connectWifi: "WiFi Connection",
+            wifiPlaceholder: "ws://ip:port",
+            connectWifiNow: "Connect via WiFi",
+            wifiHint: "Requires a device-side WebSocket endpoint or a TCP-to-WebSocket bridge.",
+            ws63Hint: "WS63 mode: open this page after connecting to the device WiFi.",
+            ws63DefaultUrl: "Default URL: {value}",
         },
         page: {
             connect: "Connect",
@@ -179,6 +182,9 @@ const messages = {
             failedSerial: "Failed to connect to serial device!",
             webBluetoothUnsupported: "Web Bluetooth is not supported in this browser.",
             webSerialUnsupported: "Web Serial is not supported in this browser.",
+            webSocketUnsupported: "WebSocket is not supported in this browser.",
+            invalidWifiUrl: "Invalid WiFi URL. Please use ws:// or wss://",
+            failedWifi: "Failed to connect to WiFi endpoint!",
             publicChannelName: "Public Channel",
             publicChannelDescription: "This is the default public channel.",
         },
@@ -189,10 +195,9 @@ const messages = {
             english: "English",
         },
         header: {
-            clientName: "MeshCore 客户端",
+            clientName: "Mecho 客户端",
             battery: "电量 {value}%",
             connecting: "连接中...",
-            builtBy: "开发者",
             connect: "连接",
             disconnect: "断开连接",
             advertZeroHop: "广播（零跳）",
@@ -207,11 +212,15 @@ const messages = {
         },
         connect: {
             notConnected: "未连接",
-            connectDevice: "连接 MeshCore 设备以继续",
-            legacyNotice: "该网页版客户端已不再维护。",
-            useNewApp: "请使用新应用：",
+            connectDevice: "连接 Mecho 设备以继续",
             connectBluetooth: "通过蓝牙连接",
             connectSerial: "通过串口连接",
+            connectWifi: "WiFi 连接",
+            wifiPlaceholder: "ws://ip:端口",
+            connectWifiNow: "通过 WiFi 连接",
+            wifiHint: "需要设备提供 WebSocket 端点，或提供 TCP 到 WebSocket 的桥接。",
+            ws63Hint: "WS63 模式：连接设备 WiFi 后打开本页面即可。",
+            ws63DefaultUrl: "默认地址：{value}",
         },
         page: {
             connect: "连接",
@@ -358,6 +367,9 @@ const messages = {
             failedSerial: "连接串口设备失败！",
             webBluetoothUnsupported: "当前浏览器不支持 Web Bluetooth。",
             webSerialUnsupported: "当前浏览器不支持 Web Serial。",
+            webSocketUnsupported: "当前浏览器不支持 WebSocket。",
+            invalidWifiUrl: "WiFi 地址无效，请使用 ws:// 或 wss://",
+            failedWifi: "连接 WiFi 端点失败！",
             publicChannelName: "公共频道",
             publicChannelDescription: "这是默认公共频道。",
         },

@@ -1,14 +1,14 @@
 {
   "name": "meshcore-web",
   "version": "0.0.1",
-  "description": "A web based MeshCore client developed by Liam Cottle",
+  "description": "A web based Mecho client",
   "main": "src/main.js",
   "type": "module",
   "scripts": {
     "build": "vite build",
     "dev": "vite"
   },
-  "author": "Liam Cottle <liam@liamcottle.com>",
+  "author": "BH4ME",
   "license": "MIT",
   "dependencies": {
     "@liamcottle/meshcore.js": "^1.2.0",

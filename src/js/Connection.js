@@ -4,6 +4,8 @@ import Database from "./Database.js";
 import Utils from "./Utils.js";
 import NotificationUtils from "./NotificationUtils.js";
 import I18n from "./I18n.js";
+import WebSocketConnection from "./WebSocketConnection.js";
+import AppConfig from "./AppConfig.js";
 
 class Connection {
 
@@ -64,6 +66,65 @@ class Connection {
             return false;
 
         }
+    }
+
+    static async connectViaWifi(url) {
+        try {
+
+            if(!window.WebSocket){
+                alert(I18n.t("connection.webSocketUnsupported"));
+                return false;
+            }
+
+            const normalizedUrl = this.normalizeWifiUrl(url);
+            if(!normalizedUrl){
+                alert(I18n.t("connection.invalidWifiUrl"));
+                return false;
+            }
+
+            await this.connect(await WebSocketConnection.open(normalizedUrl));
+            return true;
+        } catch(e) {
+            console.log(e);
+            alert(I18n.t("connection.failedWifi"));
+            return false;
+        }
+    }
+
+    static getDefaultWifiUrl() {
+        const wsPath = AppConfig.wifiWsPath
+            ? (AppConfig.wifiWsPath.startsWith("/") ? AppConfig.wifiWsPath : `/${AppConfig.wifiWsPath}`)
+            : "";
+
+        if(AppConfig.wifiWsHost){
+            return `ws://${AppConfig.wifiWsHost}${wsPath}`;
+        }
+
+        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        return `${protocol}://${window.location.host}${wsPath}`;
+    }
+
+    static normalizeWifiUrl(inputUrl) {
+        const rawValue = (inputUrl ?? "").trim();
+        const candidate = rawValue.length > 0 ? rawValue : this.getDefaultWifiUrl();
+
+        // allow typing "192.168.4.1:8080" directly
+        const urlWithProtocol = candidate.startsWith("ws://") || candidate.startsWith("wss://")
+            ? candidate
+            : `ws://${candidate}`;
+
+        let parsedUrl = null;
+        try {
+            parsedUrl = new URL(urlWithProtocol);
+        } catch (error) {
+            return null;
+        }
+
+        if(parsedUrl.protocol !== "ws:" && parsedUrl.protocol !== "wss:"){
+            return null;
+        }
+
+        return parsedUrl.toString();
     }
 
     static async connect(connection) {

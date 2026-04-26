@@ -1,7 +1,7 @@
 {
-  "name": "MeshCore",
-  "short_name": "MeshCore",
-  "description": "A simple, mobile friendly, web based MeshCore client.",
+  "name": "Mecho",
+  "short_name": "Mecho",
+  "description": "A simple, mobile friendly, web based Mecho client.",
   "scope": "/",
   "start_url": "/",
   "icons": [

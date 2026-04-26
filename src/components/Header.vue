@@ -5,21 +5,14 @@
         </div>
         <div class="my-auto mr-auto overflow-hidden">
             <div class="font-bold">{{ I18n.t('header.clientName') }}</div>
-            <div class="text-sm truncate">
+            <div v-if="GlobalState.connection != null" class="text-sm truncate">
 
                 <!-- connected or configured -->
-                <span v-if="GlobalState.connection != null">
-                    <span v-if="GlobalState.selfInfo">
-                        <span v-if="GlobalState.batteryPercentage">{{ I18n.t('header.battery', { value: GlobalState.batteryPercentage }) }} - </span>
-                        <span>{{ GlobalState.selfInfo.name }}</span>
-                    </span>
-                    <span v-else>{{ I18n.t('header.connecting') }}</span>
+                <span v-if="GlobalState.selfInfo">
+                    <span v-if="GlobalState.batteryPercentage">{{ I18n.t('header.battery', { value: GlobalState.batteryPercentage }) }} - </span>
+                    <span>{{ GlobalState.selfInfo.name }}</span>
                 </span>
-
-                <!-- disconnected -->
-                <span v-else>
-                    {{ I18n.t('header.builtBy') }} <a href="https://liamcottle.com" target="_blank" class="text-blue-600 hover:underline">Liam Cottle</a>
-                </span>
+                <span v-else>{{ I18n.t('header.connecting') }}</span>
 
             </div>
         </div>
